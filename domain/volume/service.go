@@ -7,33 +7,33 @@ import (
 	"github.com/saeed903/temporal_microservices/domain"
 )
 
-var ParallelepipeVolumeActivityName = domain.GetActivityName(Service{}.CalculateParallelepipeVolume)
+var ParallelepipedVolumeActivityName = domain.GetActivityName(Service{}.CalculateParallelepipedVolume)
 
-type Parallelepipe struct {
+type Parallelepiped struct {
 	ID     string
 	Length float64
 	Width  float64
-	Heigth float64
+	Height float64
 }
 
 type Service struct{}
 
-type CalculateParallelepipeVolumeRequest struct {
-	Parallelepipes []Parallelepipe
+type CalculateParallelepipedVolumeRequest struct {
+	Parallelepipeds []Parallelepiped
 }
 
-type CalculateParallelepipeVolumeResponse struct {
+type CalculateParallelepipedVolumeResponse struct {
 	Volumes map[string]float64
 }
 
-func (s Service) CalculateParallelepipeVolume(ctx context.Context, req CalculateParallelepipeVolumeRequest) (resp CalculateParallelepipeVolumeResponse, err error) {
+func (s Service) CalculateParallelepipedVolume(ctx context.Context, req CalculateParallelepipedVolumeRequest) (resp CalculateParallelepipedVolumeResponse, err error) {
 	heartbeat := domain.StartHeartbeat(ctx, temporal_microservices.HeartbeatIntervalSec)
 	defer heartbeat.Stop()
 
-	resp.Volumes = make(map[string]float64, len(req.Parallelepipes))
-
-	for _, p := range req.Parallelepipes {
-		resp.Volumes[p.ID] = p.Heigth * p.Length * p.Width
+	resp.Volumes = make(map[string]float64, len(req.Parallelepipeds))
+	for _, p := range req.Parallelepipeds {
+		volume := p.Width * p.Length * p.Height
+		resp.Volumes[p.ID] = volume
 	}
 	return
 }

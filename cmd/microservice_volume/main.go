@@ -44,7 +44,7 @@ func initActivityWorker(temporalClient client.Client) worker.Worker {
 		MaxConcurrentActivityExecutionSize: temporal_microservices.MaxConcurrentVolumeActivitySize,
 	}
 	worker := worker.New(temporalClient, temporal_microservices.VolumeActivityQueue, workerOptions)
-	worker.RegisterActivity(volume.Service{}.CalculateParallelepipeVolume)
+	worker.RegisterActivity(volume.Service{}.CalculateParallelepipedVolume)
 
 	err := worker.Start()
 	if err != nil {

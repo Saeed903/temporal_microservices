@@ -15,6 +15,8 @@ type Rectangle struct {
 	Width  float64
 }
 
+type Service struct{}
+
 type CalculateRectangleSquareRequest struct {
 	Rectangles []Rectangle
 }
@@ -23,11 +25,9 @@ type CalculateRectangleSquareResponse struct {
 	Squares map[string]float64
 }
 
-type Service struct{}
-
 func (s Service) CalculateRectangleSquare(ctx context.Context, req CalculateRectangleSquareRequest) (resp CalculateRectangleSquareResponse, err error) {
-	hearbeat := domain.StartHeartbeat(ctx, temporal_microservices.HeartbeatIntervalSec)
-	defer hearbeat.Stop()
+	heartbeat := domain.StartHeartbeat(ctx, temporal_microservices.HeartbeatIntervalSec)
+	defer heartbeat.Stop()
 
 	resp.Squares = make(map[string]float64, len(req.Rectangles))
 	for _, r := range req.Rectangles {
